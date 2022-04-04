@@ -2,6 +2,8 @@ from replit import clear
 #HINT: You can call clear() to clear the output in the console.
 #from art import logo
 #disabling since I don't own the art file <3
+#Day 9 Project
+
 
 #blank dictionary
 bids= {}
