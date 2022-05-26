@@ -1,3 +1,33 @@
+from distutils import ccompiler
+import random
+from art import *
+from os import system, name
+from time import sleep
+gameon = True
+docontinue = True
+
+
+
+logo = """
+__________               __                                 
+\______   \ ____   ____ |  | __                             
+ |       _//  _ \_/ ___\|  |/ /                             
+ |    |   (  <_> )  \___|    <                              
+ |____|_  /\____/ \___  >__|_ \ /\                          
+        \/            \/     \/ )/                          
+   __________                                               
+   \______   \_____  ______   ___________                   
+    |     ___/\__  \ \____ \_/ __ \_  __ \                  
+    |    |     / __ \|  |_> >  ___/|  | \/                  
+    |____|    (____  /   __/ \___  >__| /\                  
+                   \/|__|        \/     )/                  
+        _________      .__                                  
+       /   _____/ ____ |__| ______ _________________  ______
+       \_____  \_/ ___\|  |/  ___//  ___/  _ \_  __ \/  ___/
+       /        \  \___|  |\___ \ \___ (  <_> )  | \/\___ \ 
+      /_______  /\___  >__/____  >____  >____/|__|  /____  >
+              \/     \/        \/     \/                 \/ 
+"""
 rock = '''
     _______
 ---'   ____)
@@ -25,49 +55,80 @@ scissors = '''
 ---.__(___)
 '''
 
-#Write your code below this line 👇
-import random
 
-choice = int(
-    input(
-        "What do you choose? Type 0 for Rock, 1 for Paper or 2 for Scissors. ")
-)
-computer_choice = random.randint(0, 2)
-if choice == 0:
-    print("You chose: \n")
-    print(rock)
-elif choice == 1:
-    print("You chose: \n")
-    print(paper)
-elif choice == 2:
-    print("You chose: \n")
-    print(scissors)
-if computer_choice == 0:
-    print("Computer chose: \n")
-    print(rock)
-elif computer_choice == 1:
-    print("Computer chose: \n")
-    print(paper)
-elif computer_choice == 2:
-    print("Computer chose: \n")
-    print(scissors)
-if choice == 0 and computer_choice == 0:
-    print("draw")
-if choice == 0 and computer_choice == 1:
-    print("lose")
-if choice == 0 and computer_choice == 2:
-    print("win")
-if choice == 1 and computer_choice == 0:
-    print("win")
-if choice == 1 and computer_choice == 1:
-    print("draw")
-if choice == 1 and computer_choice == 2:
-    print("lose")
-if choice == 2 and computer_choice == 0:
-    print("lose")
-if choice == 2 and computer_choice == 1:
-    print("win")
-if choice == 2 and computer_choice == 2:
-    print("draw")
-if choice != 0 or 1 or 2:
-  print("You picked an invalid number. You lose.")
+
+choiceimages=[rock,paper,scissors]
+
+
+def clear():
+    if name == "nt":
+        _ = system("cls")
+    else:
+        _ = system("clear")    
+
+
+def judgewinner():
+    global playerscore, computerscore, docontinue
+    if user_choice == 0 and computer_choice == 2:
+        print("You Win!")
+        playerscore += 1
+        print(f"Your score is {playerscore}. The computer has a score of {computerscore}.")
+        playagain = input("Would you like to play again? Yes|No: ").lower
+        if playagain == "no":
+            playerscore = 0
+            computerscore = 0 
+            docontinue = False
+    elif computer_choice == 0 and user_choice == 2:
+        print("You Lose...")
+        computerscore += 1
+        print(f"Your score is {playerscore}. The computer has a score of {computerscore}.")
+        playagain = input("Would you like to play again? Yes|No: ").lower
+        if playagain == "no":
+            playerscore = 0
+            computerscore = 0
+            docontinue = False
+    elif computer_choice > user_choice:
+        print("You Lose...")
+        computerscore += 1
+        print(f"Your score is {playerscore}. The computer has a score of {computerscore}.")
+        playagain = input("Would you like to play again? Yes|No: ").lower
+        if playagain == "no":
+            playerscore = 0
+            computerscore = 0
+            docontinue = False
+    elif user_choice > computer_choice:
+        print("You Win!")
+        playerscore += 1
+        print(f"Your score is {playerscore}. The computer has a score of {computerscore}.")
+        playagain = input("Would you like to play again? Yes|No: ").lower
+        if playagain == "no":
+            playerscore = 0
+            computerscore = 0
+            docontinue = False
+    elif user_choice == computer_choice:
+        print("It's a draw")
+        print(f"Your score is {playerscore}. The computer has a score of {computerscore}.")
+        playagain = input("Would you like to play again? Yes|No: ").lower
+        if playagain == "no":
+            playerscore = 0
+            computerscore = 0
+            docontinue = False
+
+
+while gameon:
+    playerscore = 0
+    computerscore = 0
+    while docontinue:
+        clear()
+        print(logo)
+        user_choice = int(input("What do you choose? Type 0 for Rock, 1 for Paper or 2 for Scissors. \n"))
+        if user_choice >= 3 or user_choice <0:
+            print("Please select a valid answer")
+            sleep(2)
+        else:
+            print(choiceimages[user_choice])
+            computer_choice = random.randint(0, 2)
+            print("The Computer Chose:")
+            print(choiceimages[computer_choice])
+            judgewinner()
+            
